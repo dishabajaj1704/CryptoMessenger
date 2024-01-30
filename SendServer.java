@@ -7,20 +7,25 @@ import java.net.Socket;
 public class SendServer extends Thread {
     final PrintWriter serverOut;
     final Socket socket;
+    ClientCode client;
 
     public SendServer(Socket socket) throws IOException {
         this.socket = socket;
+        this.client = new ClientCode();
         serverOut = new PrintWriter(socket.getOutputStream(), true); // we passed true for autoFlush
         this.start();
     }
 
     public void run() {
+        System.out.println("Inside send run");
         String line;
         String userName = "";
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
             do {
+                // System.out.println("DOODODO");
+                // System.out.println("Send DO FLAg:- " + listener.sendToServer);
                 if (userName.equals("")) {
                     System.out.println("Enter a userName");
                     line = br.readLine();
@@ -33,16 +38,21 @@ public class SendServer extends Thread {
                         break;
                     }
                 } else {
+                    // if (client.getSendToServerFlag()) {
                     System.out.println("Enter the Message");
                     line = br.readLine();
-                    // line += " From:" + userName;
                     serverOut.println(line);
+                    // } else {
+                    // System.out.println("Client is already connected");
+                    // break;
+                    // }
                 }
             } while (!"exit".equalsIgnoreCase(line));
+            System.out.println("Im outside exit");
             serverOut.println("exit");
             socket.close(); // cleint ne apna socket close kiiya
         } catch (Exception e) {
-
+            System.out.println(e);
         }
     }
 }
