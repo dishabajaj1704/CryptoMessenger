@@ -7,9 +7,9 @@ public class ListenServer extends Thread {
     final BufferedReader serverIn;
     ClientCode client;
 
-    public ListenServer(Socket socket) throws IOException {
+    public ListenServer(Socket socket, ClientCode clientCode) throws IOException {
         serverIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.client = new ClientCode();
+        this.client = clientCode;
         this.start();
     }
 
@@ -22,13 +22,16 @@ public class ListenServer extends Thread {
                 // response = serverIn.readLine(); // ispe hold pe chala jayega
 
                 if (response.equals("Existing Connection")) {
-                    System.out.println("In hereeee existing connection");
+                    System.out.println(response);
+                    // System.out.println("In hereeee existing connection");
                     // this.sendToServer = false; (race condition)
+                    // client.setSendToServerFlag(true);
+                    // Countdown the latch
 
                 } else {
                     System.out.println("In hereeee client");
                     System.out.println(response);
-
+                    // client.setSendToServerFlag(true);
                     // this.sendToServer = true; //(race condition)
 
                 }

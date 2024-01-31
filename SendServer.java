@@ -9,9 +9,9 @@ public class SendServer extends Thread {
     final Socket socket;
     ClientCode client;
 
-    public SendServer(Socket socket) throws IOException {
+    public SendServer(Socket socket, ClientCode clientCode) throws IOException {
         this.socket = socket;
-        this.client = new ClientCode();
+        this.client = clientCode;
         serverOut = new PrintWriter(socket.getOutputStream(), true); // we passed true for autoFlush
         this.start();
     }
@@ -33,26 +33,28 @@ public class SendServer extends Thread {
                     serverOut.println(line);
                     // response = serverIn.readLine(); //causing error as serverIn was share between
                     // 2 threads
-                    // System.out.println("UserName:- " + response);
                     if (userName.equals("exit")) {
                         break;
                     }
                 } else {
                     // if (client.getSendToServerFlag()) {
-                    System.out.println("Enter the Message");
-                    line = br.readLine();
-                    serverOut.println(line);
+                        System.out.println("Enter the Message");
+                        line = br.readLine();
+                        
+                        serverOut.println(line);
                     // } else {
-                    // System.out.println("Client is already connected");
-                    // break;
+                    //     System.out.println("Client is already connected");
+                    //     break;
                     // }
                 }
             } while (!"exit".equalsIgnoreCase(line));
             System.out.println("Im outside exit");
             serverOut.println("exit");
             socket.close(); // cleint ne apna socket close kiiya
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        }catch(
+
+    Exception e)
+    {
+        System.out.println(e);
     }
-}
+}}
