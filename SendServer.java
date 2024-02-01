@@ -35,8 +35,8 @@ public class SendServer extends Thread {
                 if (userName.equals("")) {
                     System.out.println("Enter a userName");
                     line = br.readLine();
-                    userName = line;
-                    serverOut.println(line);
+                    userName = line.toLowerCase();
+                    serverOut.println(line.toLowerCase());
                     // response = serverIn.readLine(); //causing error as serverIn was share between
                     // 2 threads
                     if (userName.equals("exit")) {
