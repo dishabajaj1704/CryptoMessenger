@@ -49,16 +49,18 @@ public class Echoer extends Thread {
                 } else {
                     line = clientIn.readLine();
                     System.out.println("Line:- " + line);
-                    String regex = "^To:(.*) Message:(.*)";
+                    String regex = "^To:(.*) Message:(.*) Key:(.*)";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     String toUser = "";
                     String fromUser = "";
                     String message = "";
+                    String key = "";
                     while (matcher.find()) {
                         toUser = matcher.group(1);
                         System.out.println("to User:- " + toUser);
                         message = matcher.group(2);
+                        key = matcher.group(3);
                         // fromUser = matcher.group(3);
                         fromUser = userName;
                     }
@@ -70,19 +72,21 @@ public class Echoer extends Thread {
                                     new InputStreamReader(toUserClientSocket.getInputStream()));
                             // client jo input dega
                             PrintWriter toUserOut = new PrintWriter(toUserClientSocket.getOutputStream(), true);
-                            toUserOut.println("From:- " + fromUser + " Message:- " + message);
-                            chatsList.addChat(new Chat(fromUser, toUser, message));
+                            toUserOut.println("From:" + fromUser + " Message:" + message + " Key:" + key);
+                            chatsList.addChat(new Chat(fromUser, toUser, message, key));
                             clientOut.println("Message Delivered");
                         } else {
                             clientOut.println("Client is Offline");
                             // break;
                         }
                     } else {
-                        if (line.equals("exit")) {
+                        if (line.equalsIgnoreCase("exit")) {
                             clientSocketsList.put(this.userName, null);
+                            clientOut.println("exit");
                             break;
                         } else {
                             clientOut.println("Client Doesn't exist");
+                            break;
                         }
                         // break;
                     }

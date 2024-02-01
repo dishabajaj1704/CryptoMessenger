@@ -5,6 +5,28 @@ import java.util.Random;
 import java.util.Set;
 
 public class HelperFunctions {
+    public String stringToHex(String input) {
+        StringBuilder hexStringBuilder = new StringBuilder();
+
+        for (char character : input.toCharArray()) {
+            // Convert each character to its hexadecimal representation
+            String hex = String.format("%01X", (int) character);
+            hexStringBuilder.append(hex);
+        }
+
+        return hexStringBuilder.toString();
+    }
+
+    public String hexToString(String hexString) {
+        // Convert hexadecimal string to a BigInteger
+        BigInteger bigInt = new BigInteger(hexString, 16);
+
+        // Convert BigInteger to a byte array
+        byte[] bytes = bigInt.toByteArray();
+
+        // Convert byte array to a string
+        return new String(bytes);
+    }
 
     public String convertHexToBinary(String input) {
         StringBuilder binaryBuilder = new StringBuilder();
@@ -323,6 +345,30 @@ public class HelperFunctions {
                 { 33, 1, 41, 9, 49, 17, 57, 25 }
         };
         return inverseIP;
+    }
+
+    public String padKey(String key) {
+        if (key.length() != 16) {
+            while ((key.length() * 4) % 64 != 0) {
+                key += '0';
+            }
+        }
+        String hexKey = stringToHex(key);
+
+        return hexKey;
+    }
+
+    public String padMessage(String message) {
+        String hexaString = stringToHex(message);
+        if (hexaString.length() % 64 == 0) {
+            return hexaString;
+        } else {
+            while ((hexaString.length() * 4) % 64 != 0) {
+                hexaString += '0';
+            }
+
+            return hexaString;
+        }
     }
 
 }

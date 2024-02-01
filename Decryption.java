@@ -6,7 +6,17 @@ public class Decryption {
     HelperFunctions helper;
     Encryption encryption;
     String lastRound[];
-    String decrypted_text="";
+    String decrypted_text = "";
+    String encryptedText = "";
+
+    Decryption(HelperFunctions helper, GenerateKeys generateKeys, String encryptedText) {
+        this.helper = helper;
+        this.generateKeys = generateKeys;
+        this.roundKeys = this.generateKeys.getRoundKeys();
+        this.encryptedText = encryptedText;
+        decryptCypherText();
+
+    }
 
     Decryption(GenerateKeys generateKeys, HelperFunctions helper, Encryption encryption) {
         this.generateKeys = generateKeys;
@@ -23,16 +33,17 @@ public class Decryption {
             reverseOfRoundKeys.add(roundKeys.get(i));
         }
 
-        String encryptedHexText = encryption.getEncryptedHexaText();
+        String encryptedHexText = encryptedText;
         ComputeRound cmpr = new ComputeRound(encryptedHexText, generateKeys, helper, reverseOfRoundKeys);
         String lastRound[] = cmpr.getLastRoundText();
 
         encryption = new Encryption(lastRound, helper);
         this.decrypted_text = encryption.getEncryptedHexaText();
+        // System.out.println("Decryption file:- " + this.decrypted_text);
     }
 
-    public String getDecryptedText(){
-        return  this.decrypted_text;
+    public String getDecryptedText() {
+        return this.decrypted_text;
     }
 
 }

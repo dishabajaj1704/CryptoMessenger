@@ -1,13 +1,14 @@
 public class Chat {
-    private String fromUser, toUser, message = "";
+    private String fromUser, toUser, message, key = "";
 
     public Chat() {
     }
 
-    public Chat(String fromUser, String toUser, String message) {
+    public Chat(String fromUser, String toUser, String message, String key) {
         this.fromUser = fromUser;
         this.toUser = toUser;
         this.message = message;
+        this.key = key;
     }
 
     public String getFromUser() {
@@ -20,6 +21,10 @@ public class Chat {
 
     public String getMessage() {
         return this.message;
+    }
+
+    public String getKey(){
+        return this.key;
     }
 
     @Override

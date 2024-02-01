@@ -18,6 +18,7 @@ public class XMLForm {
                 "<From>" + c.getFromUser() + "</From>\n" +
                 "<To>" + c.getToUser() + "</To>\n" +
                 "<Body>" + c.getMessage() + "</Body>\n" +
+                "<Key>" + c.getKey() + "</Key>" +
                 "</Message>\n";
         try {
             byte b[];
