@@ -48,14 +48,14 @@ public class Echoer extends Thread {
                     }
                 } else {
                     line = clientIn.readLine();
-                    System.out.println("Line:- " + line);
-                    String regex = "^To:(.*) Message:(.*) Key:(.*)";
-                    Pattern pattern = Pattern.compile(regex);
-                    Matcher matcher = pattern.matcher(line);
                     String toUser = "";
                     String fromUser = "";
                     String message = "";
                     String key = "";
+                    System.out.println("Line:- " + line);
+                    String regex = "^To:(.*) Message:(.*) Key:(.*)";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(line);
                     while (matcher.find()) {
                         toUser = matcher.group(1);
                         System.out.println("to User:- " + toUser);
@@ -86,7 +86,7 @@ public class Echoer extends Thread {
                             break;
                         } else {
                             clientOut.println("Client Doesn't exist");
-                            break;
+                            // break;
                         }
                         // break;
                     }

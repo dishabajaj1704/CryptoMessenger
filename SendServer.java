@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,27 +54,31 @@ public class SendServer extends Thread {
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     String toUser = "", message = "", keyStr = "";
-                    while (matcher.find()) {
+                    if (matcher.find()) {
                         toUser = matcher.group(1);
                         message = matcher.group(2);
                         keyStr = matcher.group(3);
 
-                    }
-                    String hexKey = helper.padKey(keyStr);
-                    String hexMessage = helper.padMessage(message);
+                        String hexKey = helper.padKey(keyStr);
+                        String hexMessage = helper.padMessage(message);
 
-                    for (int i = 0; i < hexMessage.length(); i += 16) {
-                        GenerateKeys generateKey = new GenerateKeys(hexKey, helper);
-                        ComputeRound computeRound = new ComputeRound(hexMessage.substring(i, i + 16), generateKey,
-                                helper,
-                                generateKey.getRoundKeys());
-                        String lastRound[] = computeRound.getLastRoundText();
-                        Encryption encryption = new Encryption(lastRound, helper);
-                        encryptedText += encryption.getEncryptedHexaText();
+                        for (int i = 0; i < hexMessage.length(); i += 16) {
+                            GenerateKeys generateKey = new GenerateKeys(hexKey, helper);
+                            ComputeRound computeRound = new ComputeRound(hexMessage.substring(i, i + 16), generateKey,
+                                    helper,
+                                    generateKey.getRoundKeys());
+                            String lastRound[] = computeRound.getLastRoundText();
+                            Encryption encryption = new Encryption(lastRound, helper);
+                            encryptedText += encryption.getEncryptedHexaText();
+                        }
+
+                        String MessageForServer = "To:" + toUser.toLowerCase() + " Message:" + encryptedText + " Key:"
+                                + keyStr;
+                        serverOut.println(MessageForServer);
+                    } else {
+                        System.out.println("Please Follow The Format of To:  Message:  Key: ");
                     }
 
-                    String MessageForServer = "To:" + toUser + " Message:" + encryptedText + " Key:" + keyStr;
-                    serverOut.println(MessageForServer);
                     // } else {
                     // System.out.println("Client is already connected");
                     // break;

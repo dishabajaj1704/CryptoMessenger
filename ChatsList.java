@@ -6,13 +6,13 @@ public class ChatsList extends JPanel {
     private static XMLForm xmlForm = new XMLForm();
 
     public ChatsList() {
-        System.out.println("Contacs:-" + chats);
+        // System.out.println("Contacs:-" + chats);
     }
 
     public void addChat(Chat c) {
         chats.add(c);
         xmlForm.addToXML(c);
-        System.out.println(chats);
+        // System.out.println(chats);
     }
 
     public void addToList(Chat c) {
