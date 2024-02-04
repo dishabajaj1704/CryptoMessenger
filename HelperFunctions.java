@@ -348,12 +348,12 @@ public class HelperFunctions {
     }
 
     public String padKey(String key) {
-        if (key.length() != 16) {
-            while ((key.length() * 4) % 64 != 0) {
-                key += '0';
+        String hexKey = stringToHex(key);
+        if (hexKey.length() != 16) {
+            while ((hexKey.length() * 4) % 64 != 0) {
+                hexKey += '0';
             }
         }
-        String hexKey = stringToHex(key);
 
         return hexKey;
     }

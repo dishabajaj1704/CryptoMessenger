@@ -50,7 +50,7 @@ public class SendServer extends Thread {
                         socket.close();
                         break;
                     }
-                    String regex = "^To:(.*) Message:(.*) Key:([\\d]{1,64})";
+                    String regex = "^To:(.*) Message:(.*) Key:(.{1,64})";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     String toUser = "", message = "", keyStr = "";
@@ -70,11 +70,12 @@ public class SendServer extends Thread {
                             String lastRound[] = computeRound.getLastRoundText();
                             Encryption encryption = new Encryption(lastRound, helper);
                             encryptedText += encryption.getEncryptedHexaText();
-                        }
 
+                        }
                         String MessageForServer = "To:" + toUser.toLowerCase() + " Message:" + encryptedText + " Key:"
                                 + keyStr;
                         serverOut.println(MessageForServer);
+                        encryptedText = "";
                     } else {
                         System.out.println("Please Follow The Format of To:  Message:  Key: ");
                     }

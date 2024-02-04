@@ -53,12 +53,11 @@ public class Echoer extends Thread {
                     String message = "";
                     String key = "";
                     System.out.println("Line:- " + line);
-                    String regex = "^To:(.*) Message:(.*) Key:(.*)";
+                    String regex = "^To:(.*) Message:(.*) Key:(.{1,64})";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     while (matcher.find()) {
                         toUser = matcher.group(1);
-                        System.out.println("to User:- " + toUser);
                         message = matcher.group(2);
                         key = matcher.group(3);
                         // fromUser = matcher.group(3);

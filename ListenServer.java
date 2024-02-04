@@ -42,7 +42,7 @@ public class ListenServer extends Thread {
                 } else {
                     if (response.contains("From")) {
                         String decryptedText = "";
-                        String regex = "^From:(.*) Message:(.*) Key:([\\d]{1,64})";
+                        String regex = "^From:(.*) Message:(.*) Key:(.{1,64})";
                         Pattern pattern = Pattern.compile(regex);
                         Matcher matcher = pattern.matcher(response);
                         String fromUser = "", message = "", keyStr = "";
@@ -52,17 +52,17 @@ public class ListenServer extends Thread {
                             keyStr = matcher.group(3);
                         }
                         String hexKey = helper.padKey(keyStr);
+
                         String decryptedHexaText = "";
                         for (int i = 0; i < message.length(); i += 16) {
                             GenerateKeys generateKey = new GenerateKeys(hexKey, helper);
 
-                            // Encryption encryption = new Encryption(lastRound, helper);
-                            // decryptedText += encryption.getEncryptedHexaText();
-                            Decryption decryption = new Decryption(helper, generateKey, message);
+                            Decryption decryption = new Decryption(helper, generateKey, message.substring(i, i + 16));
                             decryptedHexaText += decryption.getDecryptedText();
                         }
                         decryptedText = helper.hexToString(decryptedHexaText);
                         System.out.println("From:" + fromUser + " Message:" + decryptedText + " Key: " + keyStr);
+                        decryptedHexaText = "";
                     } else {
                         System.out.println(response);
 
