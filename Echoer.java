@@ -52,19 +52,28 @@ public class Echoer extends Thread {
                     String fromUser = "";
                     String message = "";
                     String key = "";
-                    System.out.println("Line:- " + line);
-                    String regex = "^To:(.*) Message:(.*) Key:(.{1,64})";
+                    // System.out.println("Line:- " + line);
+                    // System.out.print("heyeyye");
+                    // String regex = "^To:(.*) Message:(.*) Key:(.{1,64})";
+
+                    String regex = "<Message>" +
+                            "<From>(.*?)</From>" +
+                            "<To>(.*?)</To>" +
+                            "<Body>(.*?)</Body>" +
+                            "<Key>(.{1,64})</Key>" +
+                            "</Message>";
+
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     while (matcher.find()) {
-                        toUser = matcher.group(1);
-                        message = matcher.group(2);
-                        key = matcher.group(3);
+                        fromUser = matcher.group(1);
+                        toUser = matcher.group(2);
+                        message = matcher.group(3);
+                        key = matcher.group(4);
                         // fromUser = matcher.group(3);
-                        fromUser = userName;
                     }
                     if (clientSocketsList.containsKey(toUser)) {
-                        System.out.println(clientSocketsList);
+                        // System.out.println(clientSocketsList);
                         Socket toUserClientSocket = clientSocketsList.get(toUser);
                         if (toUserClientSocket != null) {
                             BufferedReader toUserIn = new BufferedReader(
@@ -90,7 +99,7 @@ public class Echoer extends Thread {
                         // break;
                     }
 
-                    System.out.println(line); // we are printing
+                    // System.out.println(line); // we are printing
 
                 }
             } while (!"exit".equalsIgnoreCase(line));

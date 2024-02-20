@@ -72,9 +72,16 @@ public class SendServer extends Thread {
                             encryptedText += encryption.getEncryptedHexaText();
 
                         }
-                        String MessageForServer = "To:" + toUser.toLowerCase() + " Message:" + encryptedText + " Key:"
-                                + keyStr;
-                        serverOut.println(MessageForServer);
+                        // String MessageForServer = "To:" + toUser.toLowerCase() + " Message:" +
+                        // encryptedText + " Key:"
+                        // + keyStr;
+                        String XmlMessageForServer = "<Message>" +
+                                "<From>" + userName + "</From>" +
+                                "<To>" + toUser.toLowerCase() + "</To>" +
+                                "<Body>" + encryptedText + "</Body>" +
+                                "<Key>" + keyStr + "</Key>" +
+                                "</Message>";
+                        serverOut.println(XmlMessageForServer);
                         encryptedText = "";
                     } else {
                         System.out.println("Please Follow The Format of To:  Message:  Key: ");
