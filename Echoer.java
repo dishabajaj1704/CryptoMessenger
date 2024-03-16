@@ -62,7 +62,7 @@ public class Echoer extends Thread {
                             "<Body>(.*?)</Body>" +
                             "<Key>(.{1,64})</Key>" +
                             "</Message>";
-
+ 
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(line);
                     while (matcher.find()) {
